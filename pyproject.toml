@@ -1,0 +1,21 @@
+[project]
+name = "projeto-aws-lambda"
+version = "0.1.0"
+description = "Neste projeto vamos a explorar o uso de AWS Lambda"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "agno>=1.4.3",
+    "anthropic>=0.50.0",
+    "aws-sam-cli>=1.137.1",
+    "awscli>=1.40.6",
+    "openai>=1.77.0",
+    "pytest>=8.3.5",
+    "python-dotenv>=1.1.0",
+    "requests>=2.32.3",
+]
+
+[dependency-groups]
+dev = [
+    "black>=25.1.0",
+]
