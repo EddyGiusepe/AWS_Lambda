@@ -1,0 +1,46 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  movie-script-agno_openai
+
+  Gerador de roteiros de filmes usando Agno e OpenAI
+
+Globals:
+  Function:
+    Timeout: 30
+Parameters:
+  OpenAIApiKey:
+    Type: String
+    NoEcho: true
+    Description: "Chave da API OpenAI"
+
+Resources:
+  MovieScriptFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: app.lambda_handler
+      Runtime: python3.9
+      Architectures:
+        - x86_64
+      Events:
+        MovieScriptApi:
+          Type: Api
+          Properties:
+            Path: /movie-script
+            Method: post
+      Environment:
+        Variables:
+          OPENAI_API_KEY: !Ref OpenAIApiKey
+      Timeout: 60  # Tempo suficiente para a API responder
+
+Outputs:
+  MovieScriptApi:
+    Description: "URL do endpoint da API Gateway para a função de geração de roteiros"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/movie-script/"
+  MovieScriptFunction:
+    Description: "ARN da função Lambda de geração de roteiros"
+    Value: !GetAtt MovieScriptFunction.Arn
+  MovieScriptFunctionIamRole:
+    Description: "Função IAM implícita criada para a função de geração de roteiros"
+    Value: !GetAtt MovieScriptFunctionRole.Arn
